@@ -7,6 +7,7 @@ type CategoryPillProps = {
   selectedCategroy: string
   onSelect: (category: string) => void
 }
+// translate amount
 const TRANSLATE_AMOUNT = 200
 export function CategoryPills({categories, selectedCategroy, onSelect}: CategoryPillProps) {
   const [translate, setTranslate] = useState(0)
@@ -49,6 +50,7 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
             className="h-full aspect-square p-1.5"
             onClick={() => {
               setTranslate(translate => {
+								// set new translate is -200 if origin translate is 0
                 const newTranslate = translate - TRANSLATE_AMOUNT
                 if (newTranslate <= 0) return 0
                 return newTranslate
