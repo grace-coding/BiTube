@@ -18,6 +18,7 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
 	useEffect(() => {
 		if (containerRef.current == null) return
 
+		// got element's propreties, scollWidth is the width of scoll bar and client width is the screen width
 		const observer =  new ResizeObserver(entries => {
 			const container = entries[0]?.target
 			if (container == null) return
@@ -78,6 +79,7 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
                 const newTranslate = translate + TRANSLATE_AMOUNT
                 const edge = containerRef.current.scrollWidth
                 const width = containerRef.current.clientWidth
+								// if scoll width > translate + div width so tranlate equals div width
                 if (newTranslate + width >= edge) {
                   return edge - width
                 }
