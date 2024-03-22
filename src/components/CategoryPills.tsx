@@ -24,7 +24,6 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
 			setIsLeftVisible(translate > 0)
 			setIsRightVisible(translate + container.clientWidth < container.scrollWidth)
 		})
-
 		observer.observe(containerRef.current)
 		return () => {
 			observer.disconnect()
@@ -72,6 +71,7 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
             className="h-full aspect-square p-1.5"
             onClick={() => {
               setTranslate(translate => {
+								console.log(containerRef.current)
                 if (containerRef.current == null) {
                   return translate
                 }
