@@ -1,5 +1,6 @@
 import {PageHeader} from './layouts/PageHeader'
 import {CategoryPills} from './components/CategoryPills'
+import {VideoGridItem} from './components/VideoGridItem'
 import {categories} from './data/home'
 import {useState} from 'react'
 export default function APP() {
@@ -12,6 +13,9 @@ export default function APP() {
         <div className="overflow-x-hidden px-8 pb-4">
           <div className="sticky top-0 bg-white z-10 pb-4">
             <CategoryPills selectedCategroy={selectedCategroy} onSelect={setSelectedCategroy} categories={categories} />
+          </div>
+          <div className="grid grid-4 grid-cols[repeat(auto-fill, minmax(300px, 1fr))]">
+            <VideoGridItem />
           </div>
         </div>
       </div>
