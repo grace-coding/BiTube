@@ -29,7 +29,7 @@ export const videos = [
     },
     views: 222536,
     postedAt: new Date("2023-08-29"),
-    duration: 938,
+    duration: 3601,
     thumbnailUrl: "https://i.ytimg.com/vi/B4Y9Ed4lLAI/maxresdefault.jpg",
     videoUrl:
       "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
