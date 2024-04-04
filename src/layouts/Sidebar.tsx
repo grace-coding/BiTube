@@ -1,22 +1,43 @@
-import {Home, Repeat, Library, Clapperboard, Divide, ChevronUp, ChevronDown} from 'lucide-react'
+import {Home, Repeat, Library, Clapperboard, Divide, ChevronUp, ChevronDown, History, PlaySquare, Clock, ListVideo} from 'lucide-react'
 import {Children, ElementType, ReactNode, useState} from 'react'
 import {buttonStyles} from '../components/Button'
 import {twMerge} from 'tailwind-merge'
 import {Button} from '../components/Button'
+import {playlists, subscriptions} from '../data/sidebar'
+import {useSidebarContext} from '../context/SidebarContext'
 
 export function Sidebar() {
+  const {isLargeOpen, isSmallOpen} = useSidebarContext()
   return (
     <>
-      <aside className="sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 lg:hidden">
+      <aside className={`sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1
+			 ${isLargeOpen ? 'lg:hidden' : 'lg:flex'}`}>
         <SmallSideBarItem Icon={Home} title="Home" url="/"></SmallSideBarItem>
         <SmallSideBarItem Icon={Repeat} title="Shorts" url="/shorts"></SmallSideBarItem>
         <SmallSideBarItem Icon={Clapperboard} title="Subscriptions" url="/subscriptions"></SmallSideBarItem>
         <SmallSideBarItem Icon={Library} title="Library" url="/library"></SmallSideBarItem>
       </aside>
-      <aside className="w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 flex">
+      <aside className={`w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2
+			 ${isLargeOpen ? 'lg:flex' : 'lg:hidden'} ${isSmallOpen ? "flex z-[999] bg-white max-h-screen" : "hidden"}`}>
         <LargeSidebarSection>
-          <LargeSidebarItem isActive Icon={Home} title="Home" url="/"></LargeSidebarItem>
-          <LargeSidebarItem Icon={Clapperboard} title="Subscriptions" url="/subscriptions"></LargeSidebarItem>
+          <LargeSidebarItem isActive IconOrImage={Home} title="Home" url="/"></LargeSidebarItem>
+          <LargeSidebarItem IconOrImage={Clapperboard} title="Subscriptions" url="/subscriptions"></LargeSidebarItem>
+        </LargeSidebarSection>
+        <hr />
+        <LargeSidebarSection visibleItemCount={5}>
+          <LargeSidebarItem IconOrImage={Library} title="Library" url="/library"></LargeSidebarItem>
+          <LargeSidebarItem IconOrImage={History} title="History" url="/history"></LargeSidebarItem>
+          <LargeSidebarItem IconOrImage={PlaySquare} title="Your Videos" url="/your-videos"></LargeSidebarItem>
+          <LargeSidebarItem IconOrImage={Clock} title="Watch Later" url="/playlist?list=WL"></LargeSidebarItem>
+          {playlists.map(playlist => (
+            <LargeSidebarItem key={playlist.id} IconOrImage={ListVideo} title={playlist.name} url={`/playlist?list=${playlist.id}`}></LargeSidebarItem>
+          ))}
+        </LargeSidebarSection>
+        <hr />
+        <LargeSidebarSection title="Subscription">
+          {subscriptions.map(subscription => (
+            <LargeSidebarItem key={subscription.id} IconOrImage={subscription.imgUrl} title={subscription.channelName} url={`/@${subscription.id}`}></LargeSidebarItem>
+          ))}
         </LargeSidebarSection>
       </aside>
     </>
@@ -30,7 +51,7 @@ type SmallSideBarItemProps = {
 }
 
 type LargeSideBarItemProps = {
-  Icon: ElementType
+  IconOrImage: ElementType | string
   title: string
   url: string
   isActive?: boolean
@@ -71,13 +92,13 @@ function LargeSidebarSection({children, title, visibleItemCount = Number.POSITIV
   )
 }
 
-function LargeSidebarItem({Icon, title, url, isActive = false}: LargeSideBarItemProps) {
+function LargeSidebarItem({IconOrImage, title, url, isActive = false}: LargeSideBarItemProps) {
   return (
     <a
       href={url}
       className={twMerge(buttonStyles({variant: 'ghost'}), `w-full flex items-center rounded-lg gap-4 p-3 ${isActive ? 'font-bold bg-neutral-100 hover:bg-secondary' : undefined}`)}
     >
-      <Icon className="w-6 h-6"></Icon>
+      {typeof IconOrImage === 'string' ? <img src={IconOrImage} className="w-6 h-6 rounded-full" /> : <IconOrImage className="w-6 h-6"></IconOrImage>}
       <div className="whitespace-nowrap overflow-hidden text-ellipsis">{title}</div>
     </a>
   )
