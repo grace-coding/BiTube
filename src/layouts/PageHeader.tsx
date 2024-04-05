@@ -9,7 +9,7 @@ export function PageHeader() {
   return (
     <>
       <div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4">
-				<PageHeaderFirstSection hidden={showFullWidthSearch}/>
+        <PageHeaderFirstSection hidden={showFullWidthSearch} />
         <form className={`gap-4 flex-grow justify-center ${showFullWidthSearch ? 'flex' : 'hidden md:flex '}`}>
           {showFullWidthSearch && (
             <Button
@@ -63,11 +63,11 @@ export function PageHeader() {
 }
 
 type PageHeaderFirstSectionProps = {
-	hidden?: boolean
+  hidden?: boolean
 }
 
 export function PageHeaderFirstSection({hidden = false}: PageHeaderFirstSectionProps) {
-	const {toggle} = useSidebarContext()
+  const {toggle} = useSidebarContext()
   return (
     <div className={`gap-4 items-center flex-shrink-0 ${hidden ? 'hidden' : 'flex'}`}>
       <Button onClick={toggle} variant="ghost" size="icon">

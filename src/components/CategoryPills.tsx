@@ -13,23 +13,23 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
   const [translate, setTranslate] = useState(0)
   const [isLeftVisible, setIsLeftVisible] = useState(false)
   const [isRightVisible, setIsRightVisible] = useState(false)
-	const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-	useEffect(() => {
-		if (containerRef.current == null) return
+  useEffect(() => {
+    if (containerRef.current == null) return
 
-		// got element's propreties, scollWidth is the width of scoll bar and client width is the screen width
-		const observer =  new ResizeObserver(entries => {
-			const container = entries[0]?.target
-			if (container == null) return
-			setIsLeftVisible(translate > 0)
-			setIsRightVisible(translate + container.clientWidth < container.scrollWidth)
-		})
-		observer.observe(containerRef.current)
-		return () => {
-			observer.disconnect()
-		}
-	}, [categories, translate])
+    // got element's propreties, scollWidth is the width of scoll bar and client width is the screen width
+    const observer = new ResizeObserver(entries => {
+      const container = entries[0]?.target
+      if (container == null) return
+      setIsLeftVisible(translate > 0)
+      setIsRightVisible(translate + container.clientWidth < container.scrollWidth)
+    })
+    observer.observe(containerRef.current)
+    return () => {
+      observer.disconnect()
+    }
+  }, [categories, translate])
   return (
     <div ref={containerRef} className="overflow-x-hidden relative">
       <div className="flex whitespace-nowrap gap-3 transition-transform w-[max-content]" style={{transform: `translateX(-${translate}px)`}}>
@@ -50,7 +50,7 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
             className="h-full aspect-square p-1.5"
             onClick={() => {
               setTranslate(translate => {
-								// set new translate is -200 if origin translate is 0
+                // set new translate is -200 if origin translate is 0
                 const newTranslate = translate - TRANSLATE_AMOUNT
                 if (newTranslate <= 0) return 0
                 return newTranslate
@@ -72,14 +72,14 @@ export function CategoryPills({categories, selectedCategroy, onSelect}: Category
             className="h-full aspect-square p-1.5"
             onClick={() => {
               setTranslate(translate => {
-								console.log(containerRef.current)
+                console.log(containerRef.current)
                 if (containerRef.current == null) {
                   return translate
                 }
                 const newTranslate = translate + TRANSLATE_AMOUNT
                 const edge = containerRef.current.scrollWidth
                 const width = containerRef.current.clientWidth
-								// if scoll width > translate + div width so tranlate equals div width
+                // if scoll width > translate + div width so tranlate equals div width
                 if (newTranslate + width >= edge) {
                   return edge - width
                 }
