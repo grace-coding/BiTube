@@ -9,6 +9,7 @@ import {PageHeaderFirstSection} from './PageHeader'
 
 export function Sidebar() {
   const {isLargeOpen, isSmallOpen, close} = useSidebarContext()
+	
   return (
     <>
       <aside
